@@ -5,6 +5,10 @@ import { fetchJobs } from "@/lib/jobs-api"
 import { fetchEvents } from "@/lib/events-api"
 import { getAdminToken } from "@/lib/auth"
 
+// This dashboard reads cookies/headers and live CMS data — never prerender it
+// at build time (build-time fetches to the CMS hang and fail the Vercel build).
+export const dynamic = "force-dynamic"
+
 export default async function AdminDashboardPage() {
   let jobsCount = 0
   let openJobsCount = 0
