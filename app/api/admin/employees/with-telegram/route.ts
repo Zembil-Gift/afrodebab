@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     params.set("direction", direction)
 
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/employees/with-telegram?${params.toString()}`,
+      `${CMS_BASE_URL}/manager/employees/with-telegram?${params.toString()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

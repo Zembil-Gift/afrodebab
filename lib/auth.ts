@@ -6,8 +6,10 @@
 
 const ADMIN_COOKIE_NAME = "admin_session"
 const EMPLOYEE_COOKIE_NAME = "employee_session"
+const PLATFORM_COOKIE_NAME = "platform_session"
 const SESSION_MAX_AGE_SEC = 60 * 60 * 24 * 7 // 7 days (fallback when JWT has no exp)
-export type UserRole = "admin" | "employee"
+// "platform" = global platform admin (org CRUD + stats); "admin" = per-org manager; "employee".
+export type UserRole = "admin" | "employee" | "platform"
 
 function base64UrlDecode(str: string): string {
   if (typeof Buffer !== "undefined") {
@@ -56,6 +58,14 @@ function parseCookies(cookieHeader: string | null): Record<string, string> {
 
 export function getSessionFromCookie(cookieHeader: string | null): SessionPayload | null {
   const cookies = parseCookies(cookieHeader)
+  const platformPayload = decodeJwtPayload(cookies[PLATFORM_COOKIE_NAME] ?? "")
+  if (platformPayload && typeof platformPayload.exp === "number" && platformPayload.exp >= Date.now() / 1000) {
+    return {
+      email: typeof platformPayload.sub === "string" ? platformPayload.sub : "",
+      exp: platformPayload.exp,
+      role: "platform",
+    }
+  }
   const adminPayload = decodeJwtPayload(cookies[ADMIN_COOKIE_NAME] ?? "")
   if (adminPayload && typeof adminPayload.exp === "number" && adminPayload.exp >= Date.now() / 1000) {
     return {
@@ -103,7 +113,17 @@ export function getEmployeeToken(cookieHeader: string | null): string | null {
   return token
 }
 
+export function getPlatformToken(cookieHeader: string | null): string | null {
+  const cookies = parseCookies(cookieHeader)
+  const token = cookies[PLATFORM_COOKIE_NAME]
+  if (!token) return null
+  const payload = decodeJwtPayload(token)
+  if (!payload || typeof payload.exp !== "number" || payload.exp < Date.now() / 1000) return null
+  return token
+}
+
 export function getCookieName(role: UserRole = "admin"): string {
+  if (role === "platform") return PLATFORM_COOKIE_NAME
   return role === "admin" ? ADMIN_COOKIE_NAME : EMPLOYEE_COOKIE_NAME
 }
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL!
+const ORG_SLUG = process.env.NEXT_PUBLIC_ORG_SLUG ?? "afrodebab"
 
 export async function POST(
   request: NextRequest,
@@ -20,7 +21,7 @@ export async function POST(
       githubUrl: typeof body.githubUrl === "string" ? body.githubUrl : "",
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/jobs/${encodeURIComponent(id)}/apply`, {
+    const res = await fetch(`${CMS_BASE_URL}/public/${ORG_SLUG}/jobs/${encodeURIComponent(id)}/apply`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

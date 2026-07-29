@@ -3,7 +3,7 @@ import { getCookieName } from "@/lib/auth"
 
 export async function POST() {
   const response = NextResponse.json({ ok: true })
-  for (const role of ["admin", "employee"] as const) {
+  for (const role of ["platform", "admin", "employee"] as const) {
     response.cookies.set({
       name: getCookieName(role),
       value: "",

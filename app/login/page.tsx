@@ -41,10 +41,10 @@ export default function LoginPage() {
       } else {
         clearAdminClientToken()
       }
-      const defaultRedirect = role === "employee" ? "/employee" : "/admin"
+      const defaultRedirect = role === "employee" ? "/employee" : "/manager"
       const isRoleMatchingCallback =
         typeof callbackUrl === "string" &&
-        (role === "admin" ? callbackUrl.startsWith("/admin") : callbackUrl.startsWith("/employee"))
+        (role === "admin" ? callbackUrl.startsWith("/manager") : callbackUrl.startsWith("/employee"))
       window.location.href = isRoleMatchingCallback ? callbackUrl : defaultRedirect
       return
     } catch {

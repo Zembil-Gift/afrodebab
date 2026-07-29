@@ -14,7 +14,7 @@ export async function GET(
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/metrics/peer-reviews/periods/${encodeURIComponent(
+      `${CMS_BASE_URL}/manager/metrics/peer-reviews/periods/${encodeURIComponent(
         params.periodId
       )}/admin-reviews/${encodeURIComponent(params.employeeId)}`,
       {
@@ -60,7 +60,7 @@ export async function POST(
     const body = await request.json().catch(() => ({}))
 
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/metrics/peer-reviews/periods/${encodeURIComponent(
+      `${CMS_BASE_URL}/manager/metrics/peer-reviews/periods/${encodeURIComponent(
         params.periodId
       )}/admin-reviews/${encodeURIComponent(params.employeeId)}`,
       {

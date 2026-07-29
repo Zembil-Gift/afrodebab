@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/trello/sync`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/trello/sync`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

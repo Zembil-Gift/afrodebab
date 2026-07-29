@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   if (revieweeId) params.set("revieweeId", revieweeId)
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/metrics/peer-reviews?${params.toString()}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/metrics/peer-reviews?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

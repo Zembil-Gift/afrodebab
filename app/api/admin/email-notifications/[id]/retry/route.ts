@@ -18,7 +18,7 @@ export async function POST(
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/email-notifications/${encodeURIComponent(id)}/retry`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/email-notifications/${encodeURIComponent(id)}/retry`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

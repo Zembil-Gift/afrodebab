@@ -28,7 +28,7 @@ export async function POST(
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/metrics/employees/${encodeURIComponent(
+      `${CMS_BASE_URL}/manager/metrics/employees/${encodeURIComponent(
         params.employeeId
       )}/snapshot?${paramsSearch.toString()}`,
       {

@@ -37,7 +37,7 @@ export async function POST(
       return NextResponse.json({ error: "Transaction reference is required" }, { status: 400 })
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/payments/${encodeURIComponent(paymentId)}/mark-paid`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/payments/${encodeURIComponent(paymentId)}/mark-paid`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -44,7 +44,7 @@ export async function POST(
     })
 
     const res = await postRaw({
-      url: `${CMS_BASE_URL}/admin/employees/${encodeURIComponent(id)}/photo`,
+      url: `${CMS_BASE_URL}/manager/employees/${encodeURIComponent(id)}/photo`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": contentType,

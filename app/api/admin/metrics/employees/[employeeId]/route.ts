@@ -30,7 +30,7 @@ export async function GET(
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/metrics/employees/${encodeURIComponent(
+      `${CMS_BASE_URL}/manager/metrics/employees/${encodeURIComponent(
         params.employeeId
       )}?${paramsSearch.toString()}`,
       {

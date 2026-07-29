@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL!
+const ORG_SLUG = process.env.NEXT_PUBLIC_ORG_SLUG ?? "afrodebab"
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest) {
     params.set("sortBy", sortBy)
     params.set("direction", direction)
 
-    const url = `${CMS_BASE_URL}/events?${params.toString()}`
+    const url = `${CMS_BASE_URL}/public/${ORG_SLUG}/events?${params.toString()}`
     const res = await fetch(url, {
       next: { revalidate: 60 },
     })

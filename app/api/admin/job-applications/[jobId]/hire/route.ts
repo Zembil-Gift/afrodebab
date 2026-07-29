@@ -20,7 +20,7 @@ export async function POST(
 
   let job: JobApi | null = null
   try {
-    const jobRes = await fetch(`${CMS_BASE_URL}/jobs/${encodeURIComponent(jobId)}`, {
+    const jobRes = await fetch(`${CMS_BASE_URL}/manager/jobs/${encodeURIComponent(jobId)}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     if (jobRes.ok) {
@@ -60,7 +60,7 @@ export async function POST(
       return NextResponse.json({ error: "Salary amount must be greater than zero" }, { status: 400 })
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/job-applications/${encodeURIComponent(jobId)}/hire`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/job-applications/${encodeURIComponent(jobId)}/hire`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

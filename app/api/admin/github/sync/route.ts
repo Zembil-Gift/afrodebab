@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/github/sync`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/github/sync`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

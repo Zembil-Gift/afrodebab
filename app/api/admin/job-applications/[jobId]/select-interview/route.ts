@@ -29,7 +29,7 @@ export async function POST(
     }
 
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/job-applications/${encodeURIComponent(jobId)}/select-interview`,
+      `${CMS_BASE_URL}/manager/job-applications/${encodeURIComponent(jobId)}/select-interview`,
       {
         method: "POST",
         headers: {
