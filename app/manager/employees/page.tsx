@@ -7,6 +7,7 @@ import type { EmployeeApi } from "@/lib/employees-api"
 import { CreateEmployeeModal } from "@/components/admin/create-employee-modal"
 import { EditEmployeeModal } from "@/components/admin/edit-employee-modal"
 import { AttendanceModal } from "@/components/admin/attendance-modal"
+import { confirmDialog } from "@/components/ui/app-dialog"
 
 export default function AdminEmployeesPage() {
   const [employees, setEmployees] = useState<EmployeeApi[]>([])
@@ -61,7 +62,7 @@ export default function AdminEmployeesPage() {
   }
 
   const handleDelete = async (employee: EmployeeApi) => {
-    if (!confirm(`Delete "${employee.name}"?`)) return
+    if (!(await confirmDialog({ title: "Delete employee", message: `Delete "${employee.name}"?`, confirmText: "Delete", destructive: true }))) return
     setDeletingId(employee.id)
     setError(null)
     try {
