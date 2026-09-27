@@ -21,7 +21,7 @@ export default function AdminEventsPage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("/api/events?page=0&size=100&sortBy=startDate&direction=desc")
+      const res = await fetch("/api/admin/events?page=0&size=100&sortBy=startDate&direction=desc")
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
         throw new Error((data as { message?: string }).message ?? `Failed to load: ${res.status}`)

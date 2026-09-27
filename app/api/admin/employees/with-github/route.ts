@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     params.set("direction", direction)
 
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/employees/with-github?${params.toString()}`,
+      `${CMS_BASE_URL}/manager/employees/with-github?${params.toString()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

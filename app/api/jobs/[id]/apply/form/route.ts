@@ -3,6 +3,7 @@ import { buildMultipartBody } from "@/lib/multipart"
 import { postRaw } from "@/lib/raw-http"
 
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL!
+const ORG_SLUG = process.env.NEXT_PUBLIC_ORG_SLUG ?? "afrodebab"
 
 export async function POST(
   request: NextRequest,
@@ -49,7 +50,7 @@ export async function POST(
     })
 
     const res = await postRaw({
-      url: `${CMS_BASE_URL}/jobs/${encodeURIComponent(id)}/apply/form`,
+      url: `${CMS_BASE_URL}/public/${ORG_SLUG}/jobs/${encodeURIComponent(id)}/apply/form`,
       headers: {
         "Content-Type": contentType,
       },

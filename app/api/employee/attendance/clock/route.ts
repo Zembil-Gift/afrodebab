@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL!
-const ATTENDANCE_CLIENT_KEY = process.env.APP_ATTENDANCE_CLIENT_KEY
 const ATTENDANCE_GEOFENCE_LAT = Number(process.env.APP_ATTENDANCE_GEOFENCE_LAT)
 const ATTENDANCE_GEOFENCE_LNG = Number(process.env.APP_ATTENDANCE_GEOFENCE_LNG)
 
@@ -21,10 +20,6 @@ const distanceMeters = (lat1: number, lng1: number, lat2: number, lng2: number) 
 }
 
 export async function POST(request: NextRequest) {
-  if (!ATTENDANCE_CLIENT_KEY) {
-    return NextResponse.json({ error: "Attendance key is not configured" }, { status: 500 })
-  }
-
   if (!Number.isFinite(ATTENDANCE_GEOFENCE_LAT) || !Number.isFinite(ATTENDANCE_GEOFENCE_LNG)) {
     return NextResponse.json({ error: "Attendance location is not configured" }, { status: 500 })
   }
@@ -74,7 +69,6 @@ export async function POST(request: NextRequest) {
     const res = await fetch(`${CMS_BASE_URL}${endpoint}`, {
       method: "POST",
       headers: {
-        "X-Employee-Attendance-Key": ATTENDANCE_CLIENT_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email: email.trim() }),

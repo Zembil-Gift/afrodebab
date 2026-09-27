@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     params.set("sortBy", sortBy)
     params.set("direction", direction)
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/email-notifications/failed?${params.toString()}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/email-notifications/failed?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

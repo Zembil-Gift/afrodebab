@@ -19,7 +19,7 @@ export async function POST(
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/job-applications/${encodeURIComponent(jobId)}/send-rejections`,
+      `${CMS_BASE_URL}/manager/job-applications/${encodeURIComponent(jobId)}/send-rejections`,
       {
         method: "POST",
         headers: {

@@ -19,7 +19,7 @@ export async function GET(
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/employees/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/employees/${encodeURIComponent(id)}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -92,7 +92,7 @@ export async function PUT(
       salaryScheduleDays: scheduleDays ?? (body.salaryScheduleDays === null ? null : undefined),
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/employees/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/employees/${encodeURIComponent(id)}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export async function DELETE(
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/employees/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/employees/${encodeURIComponent(id)}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

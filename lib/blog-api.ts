@@ -1,4 +1,5 @@
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL!
+const ORG_SLUG = process.env.NEXT_PUBLIC_ORG_SLUG ?? "afrodebab"
 
 export interface BlogPostApi {
   id: number
@@ -52,7 +53,7 @@ export async function fetchBlogList(
   params.set("size", String(size))
   if (sortBy) params.set("sortBy", sortBy)
   if (direction) params.set("direction", direction)
-  const url = `${CMS_BASE_URL}/blogs?${params.toString()}`
+  const url = `${CMS_BASE_URL}/public/${ORG_SLUG}/blogs?${params.toString()}`
   const res = await fetch(url, {
     next: { revalidate: 60 },
   })
@@ -63,7 +64,7 @@ export async function fetchBlogList(
 }
 
 export async function fetchBlogBySlug(slug: string): Promise<BlogPostApi | null> {
-  const url = `${CMS_BASE_URL}/blogs/${encodeURIComponent(slug)}`
+  const url = `${CMS_BASE_URL}/public/${ORG_SLUG}/blogs/${encodeURIComponent(slug)}`
   const res = await fetch(url, {
     next: { revalidate: 60 },
   })

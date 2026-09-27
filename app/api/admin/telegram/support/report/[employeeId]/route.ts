@@ -27,7 +27,7 @@ export async function GET(
     if (to) params.set("to", to)
 
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/telegram/support/report/${encodeURIComponent(employeeId)}?${params.toString()}`,
+      `${CMS_BASE_URL}/manager/telegram/support/report/${encodeURIComponent(employeeId)}?${params.toString()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -15,7 +15,7 @@ export async function GET(
   const { id } = await params
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/employees/${id}/attendance`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/employees/${id}/attendance`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -64,7 +64,7 @@ export async function PUT(
             : null,
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/employees/${id}/attendance`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/employees/${id}/attendance`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,

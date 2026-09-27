@@ -24,7 +24,7 @@ export async function PATCH(
     }
 
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/job-applications/${encodeURIComponent(applicationId)}/status`,
+      `${CMS_BASE_URL}/manager/job-applications/${encodeURIComponent(applicationId)}/status`,
       {
         method: "PATCH",
         headers: {

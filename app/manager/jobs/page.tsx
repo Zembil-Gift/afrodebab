@@ -18,12 +18,13 @@ export default function AdminJobsPage() {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [applications, setApplications] = useState<JobApplicationApi[]>([])
   const [rejectingJobId, setRejectingJobId] = useState<number | null>(null)
+  const [orgSlug, setOrgSlug] = useState<string | null>(null)
 
   const fetchJobsList = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("/api/jobs?page=0&size=100&sortBy=title&direction=asc")
+      const res = await fetch("/api/admin/jobs?page=0&size=100&sortBy=createdAt&direction=desc")
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
         throw new Error((data as { message?: string }).message ?? `Failed to load: ${res.status}`)
@@ -54,6 +55,17 @@ export default function AdminJobsPage() {
     fetchJobsList()
     fetchApplications()
   }, [fetchJobsList, fetchApplications])
+
+  // Resolve the logged-in manager's org slug so "View" opens this org's public page
+  // (/o/{slug}/...) rather than the single hard-coded public site.
+  useEffect(() => {
+    fetch("/api/manager/me", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.orgSlug) setOrgSlug(d.orgSlug as string)
+      })
+      .catch(() => {})
+  }, [])
 
   const jobsWithHires = useMemo(() => {
     const hiredJobIds = new Set<number>()
@@ -111,7 +123,9 @@ export default function AdminJobsPage() {
             Create job
           </Button>
           <Link
-            href="/jobs"
+            href={orgSlug ? `/o/${orgSlug}/jobs` : "/jobs"}
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-700 hover:text-white transition-colors"
           >
             View public jobs
@@ -186,7 +200,7 @@ export default function AdminJobsPage() {
                     </td>
                     <td className="px-4 py-3 text-zinc-400">
                       <Link
-                        href={`/admin/jobs/${job.id}/applicants`}
+                        href={`/manager/jobs/${job.id}/applicants`}
                         className="text-sm text-zinc-300 hover:text-white hover:underline"
                       >
                         Applicants
@@ -220,7 +234,7 @@ export default function AdminJobsPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <Link
-                          href={`/jobs/${job.slug}`}
+                          href={orgSlug ? `/o/${orgSlug}/jobs/${job.slug}` : `/jobs/${job.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm text-[#e78a53] hover:underline"

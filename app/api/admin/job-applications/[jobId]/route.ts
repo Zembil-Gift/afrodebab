@@ -18,7 +18,7 @@ export async function GET(
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/job-applications/${encodeURIComponent(jobId)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/job-applications/${encodeURIComponent(jobId)}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

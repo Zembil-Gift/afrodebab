@@ -7,9 +7,10 @@ import type { BlogListResponse, BlogPostApi } from "@/lib/blog-api"
 import { CreateBlogModal } from "@/components/admin/create-blog-modal"
 import { EditBlogModal } from "@/components/admin/edit-blog-modal"
 import { Button } from "@/components/ui/button"
+import { confirmDialog } from "@/components/ui/app-dialog"
 
 const PAGE_SIZE = 10
-const SORT_BY = "publishedAt"
+const SORT_BY = "createdAt"
 const DIRECTION = "desc"
 
 function formatDate(iso: string): string {
@@ -45,7 +46,7 @@ export default function AdminBlogPage() {
       sortBy: SORT_BY,
       direction: DIRECTION,
     })
-    fetch(`/api/blogs?${query.toString()}`)
+    fetch(`/api/admin/blogs?${query.toString()}`)
       .then(async (res) => {
         if (!res.ok) {
           const body = await res.json().catch(() => ({}))
@@ -80,7 +81,7 @@ export default function AdminBlogPage() {
   }
 
   const handleDelete = async (post: BlogPostApi) => {
-    if (!confirm(`Delete "${post.title}"? This cannot be undone.`)) return
+    if (!(await confirmDialog({ title: "Delete post", message: `Delete "${post.title}"? This cannot be undone.`, confirmText: "Delete", destructive: true }))) return
     setDeletingId(post.id)
     try {
       const res = await fetch(`/api/admin/blogs/${post.id}`, { method: "DELETE" })

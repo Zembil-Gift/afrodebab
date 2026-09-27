@@ -1,4 +1,5 @@
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL!
+const ORG_SLUG = process.env.NEXT_PUBLIC_ORG_SLUG ?? "afrodebab"
 
 export type JobEmploymentTypeApi =
   | "FULL_TIME"
@@ -17,6 +18,7 @@ export interface JobApi {
   location: string
   description: string
   status: JobStatusApi
+  createdAt?: string
 }
 
 export interface JobListResponse {
@@ -55,7 +57,7 @@ export async function fetchJobs(
   params.set("size", String(size))
   if (sortBy) params.set("sortBy", sortBy)
   if (direction) params.set("direction", direction)
-  const url = `${CMS_BASE_URL}/jobs?${params.toString()}`
+  const url = `${CMS_BASE_URL}/public/${ORG_SLUG}/jobs?${params.toString()}`
   const res = await fetch(url, {
     next: { revalidate: 60 },
   })
@@ -67,7 +69,7 @@ export async function fetchJobs(
 
 /** Fetch a single job by slug. */
 export async function fetchJobBySlug(slug: string): Promise<JobApi | null> {
-  const url = `${CMS_BASE_URL}/jobs/${encodeURIComponent(slug)}`
+  const url = `${CMS_BASE_URL}/public/${ORG_SLUG}/jobs/${encodeURIComponent(slug)}`
   const res = await fetch(url, {
     next: { revalidate: 60 },
   })

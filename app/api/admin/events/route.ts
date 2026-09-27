@@ -20,6 +20,32 @@ function normalizeStatus(v: unknown): (typeof VALID_STATUSES)[number] {
   return "DRAFT"
 }
 
+// Tenant-scoped list of the logged-in manager's own events (all statuses).
+export async function GET(request: NextRequest) {
+  const token = getAdminToken(request.headers.get("cookie"))
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+  try {
+    const qs = request.nextUrl.searchParams.toString()
+    const res = await fetch(`${CMS_BASE_URL}/manager/events${qs ? `?${qs}` : ""}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: (data as { message?: string }).message ?? "Failed to fetch events" },
+        { status: res.status }
+      )
+    }
+    return NextResponse.json(data)
+  } catch (err) {
+    console.error("Admin list events error:", err)
+    return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 })
+  }
+}
+
 export async function POST(request: NextRequest) {
   const token = getAdminToken(request.headers.get("cookie"))
   if (!token) {
@@ -41,7 +67,7 @@ export async function POST(request: NextRequest) {
       status: normalizeStatus(body.status),
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/events`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/events`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

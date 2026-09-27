@@ -6,7 +6,8 @@ import {
 } from "@/lib/auth"
 
 const CMS_BASE_URL = process.env.NEXT_PUBLIC_CMS_BASE_URL
-const ADMIN_LOGIN_URL = `${CMS_BASE_URL}/admin/auth/login`
+const PLATFORM_LOGIN_URL = `${CMS_BASE_URL}/admin/auth/login`
+const ADMIN_LOGIN_URL = `${CMS_BASE_URL}/manager/auth/login`
 const EMPLOYEE_LOGIN_URL = `${CMS_BASE_URL}/employee/auth/login`
 
 async function attemptLogin(
@@ -46,12 +47,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const adminResult = await attemptLogin(ADMIN_LOGIN_URL, email, password)
-    const role: UserRole | null = adminResult.ok ? "admin" : null
-    const finalRole = role ?? "employee"
-    const finalResult = adminResult.ok
-      ? adminResult
-      : await attemptLogin(EMPLOYEE_LOGIN_URL, email, password)
+    // Try platform admin (global org operator) first, then per-org manager, then employee.
+    // Each is a distinct backend endpoint / user table.
+    let finalRole: UserRole = "platform"
+    let finalResult = await attemptLogin(PLATFORM_LOGIN_URL, email, password)
+    if (!finalResult.ok) {
+      finalRole = "admin"
+      finalResult = await attemptLogin(ADMIN_LOGIN_URL, email, password)
+    }
+    if (!finalResult.ok) {
+      finalRole = "employee"
+      finalResult = await attemptLogin(EMPLOYEE_LOGIN_URL, email, password)
+    }
 
     if (!finalResult.ok) {
       return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
@@ -73,15 +80,19 @@ export async function POST(request: NextRequest) {
       maxAge,
       path: "/",
     })
-    response.cookies.set({
-      name: getCookieName(finalRole === "admin" ? "employee" : "admin"),
-      value: "",
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 0,
-      path: "/",
-    })
+    // Clear the other two role cookies so sessions never overlap.
+    for (const role of ["platform", "admin", "employee"] as const) {
+      if (role === finalRole) continue
+      response.cookies.set({
+        name: getCookieName(role),
+        value: "",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 0,
+        path: "/",
+      })
+    }
 
     return response
   } catch {

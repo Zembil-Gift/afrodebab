@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
   })
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/metrics/employees?${params.toString()}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/metrics/employees?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

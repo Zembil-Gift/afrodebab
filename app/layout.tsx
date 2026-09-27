@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { DialogHost } from "@/components/ui/app-dialog"
 import "./globals.css"
 
 const inter = Inter({ 
@@ -29,7 +30,10 @@ html {
 }
         `}</style>
       </head>
-      <body className="dark antialiased">{children}</body>
+      <body className="dark antialiased">
+        {children}
+        <DialogHost />
+      </body>
     </html>
   )
 }

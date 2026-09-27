@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/metrics/peer-reviews/summary?${params.toString()}`,
+      `${CMS_BASE_URL}/manager/metrics/peer-reviews/summary?${params.toString()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

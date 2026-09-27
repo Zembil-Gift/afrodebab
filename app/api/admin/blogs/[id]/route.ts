@@ -18,7 +18,7 @@ export async function DELETE(
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/blogs/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/blogs/${encodeURIComponent(id)}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ export async function PUT(
       status: body.status === "DRAFT" ? "DRAFT" : "PUBLISHED",
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/blogs/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/blogs/${encodeURIComponent(id)}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

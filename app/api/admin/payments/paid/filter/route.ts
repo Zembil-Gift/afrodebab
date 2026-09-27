@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       month: String(month),
     })
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/payments/paid/filter?${params.toString()}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/payments/paid/filter?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

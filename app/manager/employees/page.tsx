@@ -7,6 +7,7 @@ import type { EmployeeApi } from "@/lib/employees-api"
 import { CreateEmployeeModal } from "@/components/admin/create-employee-modal"
 import { EditEmployeeModal } from "@/components/admin/edit-employee-modal"
 import { AttendanceModal } from "@/components/admin/attendance-modal"
+import { confirmDialog } from "@/components/ui/app-dialog"
 
 export default function AdminEmployeesPage() {
   const [employees, setEmployees] = useState<EmployeeApi[]>([])
@@ -54,15 +55,14 @@ export default function AdminEmployeesPage() {
 
   const formatSalaryAmount = (amountMinor: number | null | undefined) => {
     if (typeof amountMinor !== "number") return "-"
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency: "USD",
+    return `${new Intl.NumberFormat(undefined, {
       minimumFractionDigits: 2,
-    }).format(amountMinor / 100)
+      maximumFractionDigits: 2,
+    }).format(amountMinor / 100)} ETB`
   }
 
   const handleDelete = async (employee: EmployeeApi) => {
-    if (!confirm(`Delete "${employee.name}"?`)) return
+    if (!(await confirmDialog({ title: "Delete employee", message: `Delete "${employee.name}"?`, confirmText: "Delete", destructive: true }))) return
     setDeletingId(employee.id)
     setError(null)
     try {
@@ -115,7 +115,7 @@ export default function AdminEmployeesPage() {
                   <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Name</th>
                   <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Email</th>
                   <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Position</th>
-                  <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Salary</th>
+                  <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Gross salary</th>
                   <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Status</th>
                   <th className="w-24 px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">Actions</th>
                 </tr>

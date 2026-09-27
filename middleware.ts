@@ -2,7 +2,8 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { verifySessionCookie } from "@/lib/auth"
 
-const ADMIN_PREFIX = "/admin"
+// Manager dashboard lives at /manager; the session cookie role is still "admin".
+const ADMIN_PREFIX = "/manager"
 const EMPLOYEE_PREFIX = "/employee"
 const LOGIN_PATH = "/login"
 const AUTH_API_PREFIX = "/api/auth"
@@ -56,5 +57,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/employee", "/employee/:path*", "/login", "/api/auth/:path*"],
+  matcher: ["/manager", "/manager/:path*", "/employee", "/employee/:path*", "/login", "/api/auth/:path*"],
 }

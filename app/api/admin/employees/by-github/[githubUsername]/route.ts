@@ -22,7 +22,7 @@ export async function GET(
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/employees/by-github/${encodeURIComponent(githubUsername)}`,
+      `${CMS_BASE_URL}/manager/employees/by-github/${encodeURIComponent(githubUsername)}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

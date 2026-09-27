@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     params.set("sortBy", sortBy)
     params.set("direction", direction)
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/employees?${params.toString()}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/employees?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
     })
 
     const res = await postRaw({
-      url: `${CMS_BASE_URL}/admin/employees/form`,
+      url: `${CMS_BASE_URL}/manager/employees/form`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": contentType,

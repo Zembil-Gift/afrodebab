@@ -49,7 +49,7 @@ export async function PUT(
       status: normalizeStatus(body.status),
     }
 
-    const res = await fetch(`${CMS_BASE_URL}/admin/events/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/events/${encodeURIComponent(id)}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,7 @@ export async function GET(
 
   try {
     const res = await fetch(
-      `${CMS_BASE_URL}/admin/github/report/${encodeURIComponent(employeeId)}`,
+      `${CMS_BASE_URL}/manager/github/report/${encodeURIComponent(employeeId)}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

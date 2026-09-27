@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${CMS_BASE_URL}/admin/job-applications`, {
+    const res = await fetch(`${CMS_BASE_URL}/manager/job-applications`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
